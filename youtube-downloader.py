@@ -24,13 +24,11 @@ def query():
 
     if len(query.split()) > 1:
         query = '+'.join(query.split())
-    # return url
     return "https://www.youtube.com/results?search_query=" + query
 
 # soupTags: using Beautifulsoup 
 def soupTags(url):
     content = urlopen(url).read()
-    # set parser to "lxml"
     soup = BeautifulSoup(content, "lxml")
 
     title_tags = soup.findAll('a', {'rel':'spf-prefetch'})
