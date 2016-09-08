@@ -37,6 +37,7 @@ def soupTags(url):
     view_tags = soup.findAll('ul', {'class':'yt-lockup-meta-info'})
     return title_tags, view_tags
 
+# songList: creating a dictionary listing songs from the first page of YouTube search query
 def songList(title_tags, view_tags):
     songDict = {}
     for i in range(len(title_tags)):
@@ -50,6 +51,7 @@ def songList(title_tags, view_tags):
         songDict[title] = {video_url:int(view)}
     return songDict
 
+# displaySongs: displaying all the choices for user to select
 def displaySongs(songDict):
     displayList = []
     for key1 in songDict.keys():
@@ -58,6 +60,7 @@ def displaySongs(songDict):
             print("{} {}: {:,} views".format(len(displayList), key1, songDict[key1][key2]))
     return displayList
 
+# selectSong: user chooses the song to be downloaded, download url is returned
 def selectSong(displayList, songDict):
     print("Please enter the number in the list for the song you want: ", end='')
 
