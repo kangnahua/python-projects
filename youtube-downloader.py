@@ -18,57 +18,70 @@ ydl_opts = {
             }],
         }
 
+# query: query for a song keyword and returns the url to be read
+def query():
+    query = input('Please enter the name of the song: ')
 
-query = input('Please enter the name of the song: ')
+    if len(query.split()) > 1:
+        query = '+'.join(query.split())
+    # return url
+    return "https://www.youtube.com/results?search_query=" + query
 
-if len(query.split()) > 1:
-    query = '+'.join(query.split())
+# soupTags: using Beautifulsoup 
+def soupTags(url):
+    content = urlopen(url).read()
+    # set parser to "lxml"
+    soup = BeautifulSoup(content, "lxml")
 
-url = "https://www.youtube.com/results?search_query=" + query
-content = urlopen(url).read()
-# set parser to "lxml"
-soup = BeautifulSoup(content, "lxml")
+    title_tags = soup.findAll('a', {'rel':'spf-prefetch'})
+    view_tags = soup.findAll('ul', {'class':'yt-lockup-meta-info'})
+    return title_tags, view_tags
 
-title_tags = soup.findAll('a', {'rel':'spf-prefetch'})
-view_tags = soup.findAll('ul', {'class':'yt-lockup-meta-info'})
+def songList(title_tags, view_tags):
+    songDict = {}
+    for i in range(len(title_tags)):
+        title = title_tags[i].text
+        video_url = "https://www.youtube.com"+title_tags[i].get('href')
+        if len(view_tags[i]('li')) == 2:
+            view_raw = view_tags[i]('li')[1].text
+        elif len(view_tags[i]('li')) == 1:
+            view_raw = view_tags[i]('li')[0].text
+        view, _ = view_raw.replace("\xa0",'').split(' ')
+        songDict[title] = {video_url:int(view)}
+    return songDict
 
-# dict {title:{url:view}}
-# store information into dict
-dict = {}
-for i in range(len(title_tags)):
-    title = title_tags[i].text
-    video_url = "https://www.youtube.com" + title_tags[i].get('href')
+def displaySongs(songDict):
+    displayList = []
+    for key1 in songDict.keys():
+        displayList.append(key1)
+        for key2 in songDict[key1]:
+            print("{} {}: {:,} views".format(len(displayList), key1, songDict[key1][key2]))
+    return displayList
 
-    if len(view_tags[i]('li')) == 2:
-        view_raw = view_tags[i]('li')[1].text
-    elif len(view_tags[i]('li')) == 1:
-        view_raw = view_tags[i]('li')[0].text
+def selectSong(displayList, songDict):
+    print("Please enter the number in the list for the song you want: ", end='')
 
-    view, _ = view_raw.replace('\xa0', '').split(' ')
-    dict[title] = {video_url:int(view)}
+    isNum = False
+    while not isNum:
+        try:
+            number = int(input())
+            isNum = True
+        except ValueError:
+            print("Please enter a number for the song you want to download: ", end='')
+    downloadTitle = displayList[number - 1]
+    downloadUrl = list(songDict[downloadTitle].keys())[0]
+    print("Your choice is: {} {}".format(number, downloadTitle))
+    return downloadTitle, downloadUrl
 
-# print out the top 19 search results from YouTube
-title_list = []
-for key1 in dict.keys():
-    title_list.append(key1)
-    for key2 in dict[key1]:
-        print("{} {}: {:,} views".format(len(title_list), key1, dict[key1][key2]))
 
-print("Please enter the song you want to download: ", end='')
 
-isNum = False
-while not isNum:
-    try:
-        number = int(input())
-        isNum = True
-    except ValueError:
-        print("Please enter a number for the song you want to download: ", end='')
-        #isNum = False
-print("Your choise is: {} {}".format(number, title_list[number - 1]))
+if __name__ == "__main__":
+    url = query()
+    title_tags, view_tags = soupTags(url)
+    songDict = songList(title_tags, view_tags)
+    displayList = displaySongs(songDict)
+    downloadTitle, downloadUrl = selectSong(displayList, songDict)
+    print("Downloading title {} from {}......".format(downloadTitle, downloadUrl))
 
-download_title = title_list[number - 1]
-download_url = list(dict[download_title].keys())[0]
-print("Downloading title {} and url {}......".format(download_title, download_url))
-
-with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-    ydl.download([download_url])
+    with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+        ydl.download([downloadUrl])
