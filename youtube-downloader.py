@@ -1,6 +1,6 @@
 """
 A Python program to download YouTube videos on the first search page
-Inspiration from Tafarel Yan, and special thanks to BeautifulSoup and YouTube-DL
+Requires BeautifulSoup, YouTube-DL, and ffmpeg
 Author: Nahua Kang
 """
 from __future__ import unicode_literals
