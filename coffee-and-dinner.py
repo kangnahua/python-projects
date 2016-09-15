@@ -22,7 +22,7 @@ def display():
     print("{:^50}".format("Operation Table"))
     print('-' * 50)
     print("0. Initiate a new table for your team\n1. Update contents of your teammates' late time\n2. Show the current standing of your team's table\n3. Clearing current standing for punishments\n4. Deleting a table from the database\n5. List all tables in database\n6. Exit")
-
+    
 def list_tables():
     """Listing all available tables in coffee-and-dinner.db"""
 
