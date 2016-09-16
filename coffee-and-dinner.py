@@ -8,8 +8,6 @@ Running the script requires the following Python packages:
     sqlite3
 The program runs in Python 3.
 """
-# Build a loop for going through all functions to operate sql
-# Build a terminate function to terminate at any point
 
 import sqlite3
 import time
