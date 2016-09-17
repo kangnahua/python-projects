@@ -9,3 +9,6 @@ Downloaded files will be saved in your current working directory (pwd).
 
 `coffee-and-dinner.py`
 (2016-09-15) This is a small script using `sqlite3` to record fun punishments for teammates. My current group 'Lumanajari' at SSE set up the rules for anyone who arrives late to our group meetings. If you are late for cumulative more than 15 minutes, you will buy everyone else a cup of coffee. If you are late for three times (regardless of minutes accumulated), you will invite everyone to dinner. Instead of using Excel, I wrote this little program to record late times in SQL using Python 3.
+
+`hangman.py`
+(2016-09-17) This is a small terminal game I completed for the Week 3 problem set in MIT 6.00.1x. It is similar to the one introduced in Al Sweigart's `Invent Your Own Computer Games with Python` but without the graphical hangman.
