@@ -12,3 +12,6 @@ Downloaded files will be saved in your current working directory (pwd).
 
 `hangman.py`
 (2016-09-17) This is a small terminal game I completed for the Week 3 problem set in MIT 6.00.1x. It is similar to the one introduced in Al Sweigart's `Invent Your Own Computer Games with Python` but without the graphical hangman.
+
+`scrabble_human.py`, `scrabble_computer.py`, `scrabble_words.txt`
+(2016-10-02) These three files are a terminal game implemented for the Week 4 problem set in MIT 6.00.1x. One can either play scrabble by him/herself through `scrabble_human.py` or can play against the computer through `scrabble_computer.py` (`scrabble_human.py` must also be downloaded). Both python files require the `scrabble_words.txt` to load a large list of words. The program runs in Python 3.
