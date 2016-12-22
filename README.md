@@ -1,4 +1,4 @@
-# python-projects
+# python_projects
 A repo for my small python projects
 
 `youtube-downloader.py`
